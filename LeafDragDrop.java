@@ -4,6 +4,7 @@ import java.awt.Desktop.Action;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,7 +15,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class LeafDragDrop {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		WebDriverManager.chromedriver().setup();
 		ChromeOptions Options = new ChromeOptions();
 		Options.addArguments("--disable-notifications");
@@ -48,13 +49,19 @@ public class LeafDragDrop {
 	    System.out.println(row1.getLocation());
 	    WebElement row2= driver.findElement(By.xpath("(//table[@role='grid'])[2]//tr/td[text()='Brown Purse']"));
 	    System.out.println(row2.getLocation());
-	    mouseAction.dragAndDropBy(row1, 527, 784).perform();
-
-	    
+	    mouseAction.dragAndDrop(row1, row2).perform();
 	    driver.findElement(By.xpath("//span[text()='Start']")).click();
+	    Thread.sleep(10000);
 	    
+	    WebElement sliderElement = driver.findElement(By.xpath("//div[@class='ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content']"));
+	    System.out.println(sliderElement.getLocation());
+	    mouseAction.dragAndDropBy(sliderElement, 40, 0).perform();
+	    System.out.println(sliderElement.getLocation());
 	    
+	    Dimension sizeImage = driver.findElement(By.xpath("//img[@id='form:logo']")).getSize();
+	    mouseAction.dragAndDropBy(sliderElement, 60, 0).perform();
 	    
+
 
 	    
 	}
