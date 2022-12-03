@@ -38,18 +38,22 @@ public class LeafDragDrop {
 	    WebElement col1= driver.findElement(By.xpath("//span[text()='Category']"));
 	    WebElement col2= driver.findElement(By.xpath("//span[text()='Quantity']"));
 	    mouseAction.dragAndDrop(col2,col1).pause(Duration.ofSeconds(3)).perform();
-//	    Point location1 = col1.getLocation();
+	    //Point location1 = col1.getLocation();
 //	    System.out.println(location1);
 //	    Point location2 = col2.getLocation();
 //	    System.out.println(location2);
 	    
 	    
-	    WebElement row1= driver.findElement(By.xpath("(//table[@role='grid'])[2]//tr[3]/td"));
-	    WebElement row2= driver.findElement(By.xpath("(//table[@role='grid'])[2]//tr[5]/td"));
-	    mouseAction.dragAndDrop(row1,row2).pause(Duration.ofSeconds(3)).build().perform();
+	    WebElement row1= driver.findElement(By.xpath("(//table[@role='grid'])[2]//tr/td[text()='Blue T-Shirt']"));
+	    System.out.println(row1.getLocation());
+	    WebElement row2= driver.findElement(By.xpath("(//table[@role='grid'])[2]//tr/td[text()='Brown Purse']"));
+	    System.out.println(row2.getLocation());
+	    mouseAction.dragAndDropBy(row1, 527, 784).perform();
 
 	    
 	    driver.findElement(By.xpath("//span[text()='Start']")).click();
+	    
+	    
 	    
 
 	    
