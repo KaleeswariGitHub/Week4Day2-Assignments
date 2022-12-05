@@ -1,6 +1,7 @@
 package week4.day2;
 
 import java.time.Duration;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +14,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -27,6 +30,9 @@ public class NykaaAction {
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.get("https://www.nykaa.com/");
+		
+		//WebDriverWait wait = new WebDriverWait(driver, 30);
+		
 		
 		WebElement brandsEle =	driver.findElement(By.xpath("//a[text()='brands']"));
         WebElement typeBrand = driver.findElement(By.xpath("//input[@id='brandSearchBox']"));
@@ -44,35 +50,46 @@ public class NykaaAction {
         mouseMove.moveToElement(checkTopRated).click().perform();
         
         WebElement choseCategory = driver.findElement(By.xpath("//span[text()='Category']"));
-        mouseMove.moveToElement(choseCategory).click().pause(Duration.ofSeconds(3)).perform();
+        mouseMove.moveToElement(choseCategory).click().perform();
         Thread.sleep(3000);
         System.out.println("Catergory");
         WebElement choseHair = driver.findElement(By.xpath("//span[text()='Hair']"));
-        mouseMove.moveToElement(choseHair).click().pause(Duration.ofSeconds(3)).perform();
+        mouseMove.moveToElement(choseHair).click().perform();
         System.out.println("Hair");
-        WebElement choseHairCare = driver.findElement(By.xpath("//span[text()='Hair Care']"));
-        Thread.sleep(3000);
-        mouseMove.moveToElement(choseHairCare).click().pause(Duration.ofSeconds(3)).perform();
-        Thread.sleep(3000);
+        WebElement choseHairCare = driver.findElement(By.xpath("(//span[text()='Hair Care'])[2]"));
+        //Thread.sleep(3000);
+        mouseMove.moveToElement(choseHairCare).click().perform();
+        //Thread.sleep(3000);
         System.out.println("haircare");
         WebElement choseShampoo= driver.findElement(By.xpath("//span[text()='Shampoo']"));
         Thread.sleep(3000);
-        mouseMove.moveToElement(choseShampoo).click().pause(Duration.ofSeconds(3)).perform();
+         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Shampoo']")));
+        Boolean boolean1 = wait.until(ExpectedConditions.textToBePresentInElement(choseShampoo, "Shampoo"));
+        System.out.println(boolean1);
+         driver.findElement(By.xpath("//span[text()='Shampoo']")).click();
+        
+        //mouseMove.moveToElement(choseShampoo).click().perform();
         //choseShampoo.click();
         System.out.println("shampoo");
-        //Thread.sleep(3000);
+        String shampString= choseShampoo.getText();
+        Thread.sleep(3000);
         WebElement choseConcern = driver.findElement(By.xpath("//span[text()='Concern']"));
-        mouseMove.moveToElement(choseConcern).click().pause(Duration.ofSeconds(3)).perform();
-        //Thread.sleep(3000);
+        mouseMove.moveToElement(choseConcern).click().perform();
         System.out.println("Concern");
+          Thread.sleep(3000);
         WebElement colorProctection = driver.findElement(By.xpath("//span[text()='Color Protection']"));
-        mouseMove.moveToElement(colorProctection).click().pause(Duration.ofSeconds(3)).perform();
-        //Thread.sleep(3000);
+        mouseMove.moveToElement(colorProctection).click().perform();
+        Thread.sleep(3000);
         System.out.println("Colour pro");
+        
         List<WebElement> filterApplied = driver.findElements(By.xpath("//span[@class='filter-value']"));
         
         List<WebElement> filterValues = new ArrayList<>(filterApplied);
-        
+        String colorProString = colorProctection.getText();
+        System.out.println(colorProString);
+        Thread.sleep(3000);
+        //String shampString= choseShampoo.getText(); 
         Set<String> filterSet = new HashSet<>();
         for (WebElement allFilterValues : filterValues) 
         {
@@ -83,8 +100,13 @@ public class NykaaAction {
         
         System.out.println(filterSet);
        
-        if(filterSet.contains(choseShampoo.getText()) && filterSet.contains(colorProctection.getText()))
-        System.out.println("Filter is applied for all selection");
+//        if(filterSet.contains(shampString))
+//        {
+            if(filterSet.contains(colorProString))
+            		
+                         System.out.println("Filter is applied for all selection");
+            		
+      //  }
         else
         System.out.println("Filter is not applied for all selection");
         
@@ -130,7 +152,7 @@ public class NykaaAction {
 		WebElement framElement = driver.findElement(By.xpath("//iframe"));
         driver.switchTo().frame(framElement);
        	
-		driver.findElement(By.xpath("//img[@src='https://adn-static1.nykaa.com/media/wysiwyg/Payments/desktop-icons/tick-icon.svg']")).click();
+		//driver.findElement(By.xpath("//img[@src='https://adn-static1.nykaa.com/media/wysiwyg/Payments/desktop-icons/tick-icon.svg']")).click();
 		driver.switchTo().window(listOfWindows1.get(1));
         String totValue = driver.findElement(By.xpath("//p[contains(text(),'You are saving')]/parent::div/following-sibling::p")).getText();
         System.out.println("The total value is "+ totValue);
